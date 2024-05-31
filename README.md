@@ -1,0 +1,6 @@
+- Material UI
+- React
+- React Router v6
+- Typescript
+- Material React Table v2
+- Vite
