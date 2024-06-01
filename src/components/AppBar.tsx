@@ -38,7 +38,9 @@ export const AppBar = ({
       >
         <Typography variant="h6" noWrap component="div">
           {location.pathname
-            ? (location.pathname.split('/').pop() || '').toLocaleUpperCase()
+            ? location.pathname === '/'
+              ? 'DASHBOARD'
+              : (location.pathname.split('/').pop() || '').toLocaleUpperCase()
             : ''}
         </Typography>
         <Box>

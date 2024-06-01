@@ -16,6 +16,8 @@ import { Drawer } from '@styledComponents/Drawer';
 import { DrawerHeader } from '@styledComponents/DrawerHeader';
 import { LoginTwoTone } from '@mui/icons-material';
 import AppBar from '@components/AppBar';
+import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
+import TocIcon from '@mui/icons-material/Toc';
 
 const drawerWidth = 240;
 
@@ -23,6 +25,10 @@ function LayoutDashboard(props: { toggleTheme: () => void }) {
   const location = useLocation();
   const navigate = useNavigate();
   const currentTheme = localStorage.getItem('theme');
+  const TopList = [
+    { text: 'Dashboard', icon: <SpaceDashboardIcon /> },
+    { text: 'Table', icon: <TocIcon /> },
+  ];
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -61,8 +67,12 @@ function LayoutDashboard(props: { toggleTheme: () => void }) {
           >
             <Box>
               <List>
-                {['Dashboard', 'Table'].map((text, index) => (
-                  <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+                {TopList.map((item, index) => (
+                  <ListItem
+                    key={item.text}
+                    disablePadding
+                    sx={{ display: 'block' }}
+                  >
                     <ListItemButton
                       sx={{
                         minHeight: 48,
@@ -70,7 +80,7 @@ function LayoutDashboard(props: { toggleTheme: () => void }) {
                         px: 2.5,
                       }}
                       onClick={() => {
-                        navigate(`${text.toLowerCase()}`);
+                        navigate(`${item.text.toLowerCase()}`);
                       }}
                     >
                       <ListItemIcon
@@ -80,9 +90,9 @@ function LayoutDashboard(props: { toggleTheme: () => void }) {
                           justifyContent: 'center',
                         }}
                       >
-                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                        {item.icon}
                       </ListItemIcon>
-                      <ListItemText primary={text} sx={{ opacity: 1 }} />
+                      <ListItemText primary={item.text} sx={{ opacity: 1 }} />
                     </ListItemButton>
                   </ListItem>
                 ))}
@@ -125,8 +135,18 @@ function LayoutDashboard(props: { toggleTheme: () => void }) {
           </Box>
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, m: 1 }}>
-          <DrawerHeader />
-          <Outlet />
+          <DrawerHeader /> {/* This is for the fixed AppBar */}
+          <Box
+            height={'100%'}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <Outlet />
+          </Box>
         </Box>
       </Box>
     </>

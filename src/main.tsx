@@ -15,6 +15,8 @@ import LayoutDashboard from './pages/Home/layout';
 import { useState } from 'react';
 import { darkTheme, lightTheme } from './theme';
 import Table from './pages/Home/Table';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const Root = () => {
   const [isDarkMode, setIsDarkMode] = useState(
@@ -25,27 +27,28 @@ const Root = () => {
     localStorage.setItem('theme', isDarkMode ? 'light' : 'dark');
     setIsDarkMode(!isDarkMode);
   };
-  const isAuthenticated = localStorage.getItem('isAuthenticated') === 'true';
   return (
     <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
-      <CssBaseline />
-      <BrowserRouter>
-        <Routes>
-          <Route element={<PublicRoute />}>
-            <Route path="/login" element={<Login />} />
-          </Route>
-          <Route element={<PrivateRoute />}>
-            <Route
-              path="/"
-              element={<LayoutDashboard toggleTheme={toggleTheme} />}
-            >
-              <Route index element={<Dashboard />} />
-              <Route path="table" element={<Table />} />
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <CssBaseline />
+        <BrowserRouter>
+          <Routes>
+            <Route element={<PublicRoute />}>
+              <Route path="/login" element={<Login />} />
             </Route>
-          </Route>
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </BrowserRouter>
+            <Route element={<PrivateRoute />}>
+              <Route
+                path="/"
+                element={<LayoutDashboard toggleTheme={toggleTheme} />}
+              >
+                <Route index element={<Dashboard />} />
+                <Route path="table" element={<Table />} />
+              </Route>
+            </Route>
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </BrowserRouter>
+      </LocalizationProvider>
     </ThemeProvider>
   );
 };

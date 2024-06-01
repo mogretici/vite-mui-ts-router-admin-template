@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-
 //MRT Imports
 import {
   MaterialReactTable,
@@ -162,6 +161,7 @@ const TableComponent = () => {
       sx: {
         borderRadius: '1rem',
         boxShadow: 2,
+        width: '100%',
       },
     },
     paginationDisplayMode: 'pages',
@@ -301,13 +301,6 @@ const TableComponent = () => {
   return <MaterialReactTable table={table} />;
 };
 
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-
-const Table = () => (
-  <LocalizationProvider dateAdapter={AdapterDayjs}>
-    <TableComponent />
-  </LocalizationProvider>
-);
+const Table = () => <TableComponent />;
 
 export default Table;
