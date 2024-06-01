@@ -1,5 +1,5 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
-import { red, purple, blue, blueGrey } from '@mui/material/colors';
+import { red, blueGrey } from '@mui/material/colors';
 
 // Common settings for both light and dark themes
 const commonSettings = {
@@ -82,7 +82,8 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#7986cb', // Soft Blue
+      main: '#4692b9', // Soft Blue
+      // main: '#7986cb', // Soft Blue
     },
     secondary: {
       main: '#7986cb', // Soft Blue

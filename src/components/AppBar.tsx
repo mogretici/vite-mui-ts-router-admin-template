@@ -8,7 +8,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { StyledAppBar } from '@styledComponents/StyledAppBar';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const AppBar = ({
   drawerWidth,
@@ -20,7 +20,7 @@ export const AppBar = ({
   props: { toggleTheme: () => void };
 }): React.ReactNode => {
   const location = useLocation();
-
+  const navigate = useNavigate();
   return (
     <StyledAppBar
       position="fixed"
@@ -54,7 +54,12 @@ export const AppBar = ({
           >
             {currentTheme === 'dark' ? <LightModeIcon /> : <DarkModeIcon />}
           </ListItemIcon>
-          <ListItemIcon>
+          <ListItemIcon
+            onClick={() => {
+              localStorage.removeItem('token');
+              navigate('login');
+            }}
+          >
             <PowerSettingsNewIcon />
           </ListItemIcon>
         </Box>

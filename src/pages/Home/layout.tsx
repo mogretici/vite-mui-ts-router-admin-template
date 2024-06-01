@@ -26,11 +26,22 @@ function LayoutDashboard(props: { toggleTheme: () => void }) {
       text: 'Dashboard',
       icon: <SpaceDashboardIcon />,
       navigation: 'dashboard',
+      onClick: () => {
+        navigate('dashboard');
+      },
     },
     { text: 'Table', icon: <TocIcon />, navigation: 'table' },
   ];
   const BottomList = [
-    { text: 'Logout', icon: <LoginTwoTone />, navigation: 'login' },
+    {
+      text: 'Logout',
+      icon: <LoginTwoTone />,
+      navigation: 'login',
+      onClick: () => {
+        localStorage.removeItem('token');
+        navigate('login');
+      },
+    },
   ];
   return (
     <>
@@ -91,7 +102,9 @@ function LayoutDashboard(props: { toggleTheme: () => void }) {
                         px: 2.5,
                       }}
                       onClick={() => {
-                        navigate(`${item.navigation}`);
+                        item.onClick
+                          ? item.onClick()
+                          : navigate(`${item.navigation}`);
                       }}
                     >
                       <ListItemIcon
@@ -123,7 +136,9 @@ function LayoutDashboard(props: { toggleTheme: () => void }) {
                         px: 1,
                       }}
                       onClick={() => {
-                        navigate(`${item.navigation}`);
+                        item.onClick
+                          ? item.onClick()
+                          : navigate(`${item.navigation}`);
                       }}
                     >
                       <ListItemText
