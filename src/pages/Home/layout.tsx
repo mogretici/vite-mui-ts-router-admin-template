@@ -1,17 +1,14 @@
 import React from 'react';
 import Copyright from '@components/Copyright';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
 import { Drawer } from '@styledComponents/Drawer';
 import { DrawerHeader } from '@styledComponents/DrawerHeader';
 import { LoginTwoTone } from '@mui/icons-material';
@@ -22,12 +19,18 @@ import TocIcon from '@mui/icons-material/Toc';
 const drawerWidth = 240;
 
 function LayoutDashboard(props: { toggleTheme: () => void }) {
-  const location = useLocation();
   const navigate = useNavigate();
   const currentTheme = localStorage.getItem('theme');
   const TopList = [
-    { text: 'Dashboard', icon: <SpaceDashboardIcon /> },
-    { text: 'Table', icon: <TocIcon /> },
+    {
+      text: 'Dashboard',
+      icon: <SpaceDashboardIcon />,
+      navigation: 'dashboard',
+    },
+    { text: 'Table', icon: <TocIcon />, navigation: 'table' },
+  ];
+  const BottomList = [
+    { text: 'Logout', icon: <LoginTwoTone />, navigation: 'login' },
   ];
   return (
     <>
@@ -65,7 +68,15 @@ function LayoutDashboard(props: { toggleTheme: () => void }) {
               height: '100%',
             }}
           >
-            <Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                height: '100%',
+                my: 2,
+              }}
+            >
               <List>
                 {TopList.map((item, index) => (
                   <ListItem
@@ -80,7 +91,7 @@ function LayoutDashboard(props: { toggleTheme: () => void }) {
                         px: 2.5,
                       }}
                       onClick={() => {
-                        navigate(`${item.text.toLowerCase()}`);
+                        navigate(`${item.navigation}`);
                       }}
                     >
                       <ListItemIcon
@@ -97,38 +108,41 @@ function LayoutDashboard(props: { toggleTheme: () => void }) {
                   </ListItem>
                 ))}
               </List>
-              <Divider />
               <List>
-                <ListItem disablePadding sx={{ display: 'block' }}>
-                  <ListItemButton
-                    sx={{
-                      minHeight: 48,
-                      justifyContent: 'initial',
-                      px: 2.5,
-                    }}
+                {BottomList.map((item, index) => (
+                  <ListItem
+                    key={item.text}
+                    disablePadding
+                    sx={{ display: 'block' }}
                   >
-                    <ListItemIcon
+                    <ListItemButton
                       sx={{
-                        minWidth: 0,
-                        mr: 3,
+                        minHeight: 48,
+                        alignItems: 'center',
                         justifyContent: 'center',
+                        px: 1,
+                      }}
+                      onClick={() => {
+                        navigate(`${item.navigation}`);
                       }}
                     >
-                      <LoginTwoTone />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={
-                        <Typography
-                          variant="button"
-                          sx={{ textTransform: 'capitalize' }}
-                        >
-                          Logout
-                        </Typography>
-                      }
-                      sx={{ opacity: 1 }}
-                    />
-                  </ListItemButton>
-                </ListItem>
+                      <ListItemText
+                        primary={item.text}
+                        sx={{ opacity: 1, textAlign: 'end', pr: 2 }}
+                      />
+
+                      <ListItemIcon
+                        sx={{
+                          minWidth: 0,
+                          mr: 3,
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {item.icon}
+                      </ListItemIcon>
+                    </ListItemButton>
+                  </ListItem>
+                ))}
               </List>
             </Box>
             <Copyright />
